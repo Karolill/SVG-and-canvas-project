@@ -1,0 +1,221 @@
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>My Paintings</title>
+</head>
+
+<body>
+    <div id="top-bar">
+        <h1>Mitt kunstverk</h1>
+    </div>
+
+    <p id="about-artist">
+        Kunstneren bak dette verket heter Lilly Rose, og er 34 år gammel. Etter en fin 
+        oppvekst i Finland bor hun nå nord i Spania, hvor hun lever av å lage fargerike kunstverk, 
+        som de du ser her. Kunstverket til venstre er lagd med SVG, og det til høyre er 
+        lagd ved bruk av canvas. Hun har hentet inspirasjon 
+        fra hele verden, og deler kunsten med alle som måtte ønske det. Lilly elsker 
+        ulike årstider, og ble inspirert av dette til å blande sommerlige farger med 
+        et objekt man ofte lager om vinteren - en snømann. I tillegg til dette har hun 
+        gjort kunstverkene interaktive, for å gi mer glede til de som ser på dem.
+    </p>
+
+    <!--Pictures-->
+
+    <div class="flex-container">
+        <div class="flex-item">
+            <svg id="my-svg" height="450" width="270">
+                <ellipse id="big-circle" cx="135" cy="350" rx="100" ry="100" 
+                    fill="#f9e2f0" stroke="black" />
+                <ellipse id="medium-circle" cx="135" cy="185" rx="65" ry="65" 
+                    fill="#ffd000" stroke="black" />
+                <ellipse id="small-circle" cx="135" cy="80" rx="40" ry="40" 
+                    fill="#c7efcf" stroke="black"/>
+                <rect class="hat" width="120" height="20" x="75" y="40" />
+                <rect class="hat" id="squared-hat" width="60" height="40" x="105" />
+                <polygon class="hat" id="triangle-hat" points="105,40 135,0 165,40" />
+                <polygon id="star" points="135,150 120,190 155,165 115,165 150,190" 
+                    fill="#f9e2f0" stroke="black" />
+                <polyline points="195,160 255,110 265,120 255,110 270,105 255,110 260,95 255,110 245,100"
+                    fill="none" stroke="black" />
+                <polyline id="lefthand" points="75,160 15,110 25,100 15,110 10,95 15,110 0,105 15,110 5,120" 
+                    fill="none" stroke="black" />
+            </svg>
+            <h3>The colorful snowman</h3>
+        </div>
+
+        <div class="flex-item">
+            <canvas id="my-canvas" height="450" width="270">
+            </canvas>
+                <script src="canvas.js">
+                </script>
+            <h3>The colorful snowmans twin</h3>
+        </div>
+    </div>
+
+    <script src="svg_animations.js">
+    </script>
+
+    <!--documentation and button-->
+
+    <div id="doc-text">
+        <h2>Dokumentasjon</h2>
+        <h4>CSS-grid og Flexbox</h4>
+        <p>
+            Jeg har brukt CSS flexbox for å sette bildene på samme rad. 
+            Dette er gjort ved å ha en div-tagg rundt begge bildene som ble 
+            flexcontainer, og en egen div-tagg rundt hvert av 
+            bildene som ble flex-item. Bruk av flexbox gjør det 
+            også enkelt å sette bildene på en kolonne istedenfor 
+            en rad dersom skjermen blir mindre, ved å endre flex-direction. 
+
+            <br /><br />
+            Ettersom jeg ikke skulle sette opp noe i 2D, men bare skulle 
+            ha det på linje, valgte jeg å ikke bruke CSS-grid i denne 
+            oppgaven. Det hadde gjort koden hakket mer komplisert, uten å 
+            egentlig tilføye noe ekstra til siden. Hvis jeg skulle ha satt 
+            opp flere elementer (bilder eller andre former for bokser) på 
+            siden, hvor noen skulle stå ved siden av hverandre og noen over/under 
+            hverandre hadde jeg valgt CSS-grid, da det hadde vært lettere 
+            enn å bruke flexbox flettet inn i en annen flexbox. Hadde jeg hatt 
+            planer om å utvide siden med flere bilder hadde jeg også brukt 
+            CSS-grid, da de måtte ha havnet under bildene som er der nå, og
+            med CSS-grid lar siden seg lett utvide om man legger inn flere elementer. 
+        </p>
+
+        <h4>HTML Canvas og SVG i HTML</h4>
+        <p>
+            <b>SVG:</b> Lagde SVG-element ved bruk av svg-taggen i html, 
+            som jeg fylte med taggen ellipse for sirkler, rect for 
+            hatten, polygon for stjernen (ettersom det skulle 
+            være en figur med fyll) og den spisse hatten, og polyline for hendene 
+            (da de ikke skulle ha et fyll). For å gjøre SVG-bildet 
+            interaktivt brukte jeg jQuery, noe jeg kommer tilbake 
+            til senere. 
+
+            <br /><br />
+            <b>HTML canvas:</b> Lagde canvas-elementet ved bruk 
+            av canvas-taggen i html, og skrev Javascript koden 
+            for denne i en egen fil kalt canvas.js. Der valgte 
+            jeg å hardkode hele figuren i én funksjon kalt drawArt(), 
+            selv om jeg kunne ha lagd egne klasser for å lage 
+            sirkler, rektangler og linjer. Grunnen til at jeg ikke gjorde 
+            dette er fordi koden da ville blitt mer kompleks, og 
+            ettersom det ikke var så mange elementer klarte jeg å 
+            holde koden oversiktlig med noen kommentarer. 
+
+            <br /><br />
+            For å skape interaktivitet lagde jeg en 
+            eventlistener som følger med på posisjonen til 
+            musepekeren på canvaset når den er over det. 
+            Så sjekker den ved hjelp av "mousemove" 
+            om man er over en del av figuren 
+            som skal bytte farge. Dersom den er det endres verdien av 
+            variablene som setter fargen når canvaset tegnes på nytt. 
+            I tillegg til dette har jeg to eventlistenere som ser etter 
+            klikk i canvaset. Dersom det oppdages, vil handlingen være 
+            avhengig av hvilken del av figuren man er over. 
+            Hvis man klikker på hatten vil også hele bildet tegnes på nytt, 
+            men hvilken hatt som tegnes er avhengig av en boolsk 
+            variabel kalt StartingHatCan, som endres hver gang 
+            man trykker på hatten. Hvis man trykker på den store 
+            sirkelen endres fargen på den og stjernen.
+            Her brukte jeg ikke jQuery, 
+            fordi det da ble vanskeligere å gjøre så endringer skjedde 
+            når man hadde musen over/klikket på spesifikke deler 
+            av canvaset, ettersom de ikke er egne 
+            html-elementer, men en del av samme elementet. 
+        </p>
+
+        <h4>jQuery</h4>
+        <p>
+            jQuery ble brukt for fire ting:
+            <ol>
+                <li>For knappen som viser/skjuler 
+                    dokumentasjonen brukte jeg .click 
+                    funksjonen til jQuery. Koden til dette 
+                    er i click_button.js. Jeg brukte jQuery 
+                    her fordi det gjør det lett å 
+                    endre verdier hos CSS-egenskaper, og 
+                    her måtte jeg endre verdien av display 
+                    hos doc-text. jQuery virket også greit 
+                    for å endre teksten på selve knappen. 
+                </li>
+                <li>For SVG-bildet brukte jeg .hover-funksjonen 
+                    til jQuery, og denne koden er i 
+                    svg_animations.js, sammen med alle andre 
+                    animasjoner for svg-bildet. Jeg brukte dette 
+                    grunnet samme argument som over. Eneste jeg skulle 
+                    gjøre var å endre verdier på CSS-egenskapen "fill", 
+                    og jeg kunne velge hvor fargen ble endret 
+                    ved hjelp av id-en til html-elementene. 
+                </li>
+                <li>For å endre farge på den store sirkelen når 
+                    den trykkes på. Gjøres på samme måte som i 
+                    punktet over, men ved .click istedenfor .hover. 
+                </li>
+                <li>For å endre fasong på hatten når den trykkes på. 
+                    Det jeg da gjør er å ha både den firkantede og 
+                    den trekantede hatten fra starten av, men jeg 
+                    bytter på hvem av dem som har css-egenskapen 
+                    dispaly satt til "none", og hvem som har den 
+                    satt til "inline".
+                </li>
+            </ol>
+        </p>
+
+        <h4>Cross-browser testing</h4>
+        <p>
+            Jeg har utført cross-browser testing i Google Chrome, 
+            Firefox og Microsoft Edge. Der sjekket jeg at animasjonene virket, 
+            og at alt oppførte seg som tenkt når skjermen ble mindre. 
+            Ut fra testen vil jeg si at websiden virker bra på 
+            ulike browsere, ettersom eneste forskjellen jeg fant 
+            var på hvordan kanten rundt "Vis dokumentasjon"-knappen 
+            ser ut. Dette har derimot lite å si for brukeropplevelsen, da 
+            det er en kant rundt knappen i alle nettleserne. 
+        </p>
+
+        <h4>Informasjonskilder</h4>
+        <p>
+            Jeg har i all hovedsak brukt stackoverflow.com og w3schools.com 
+            som informasjonskilder. W3schools har jeg stort 
+            sett brukt for å finne basis-kunnskap, mens Stack overflow 
+            ble brukt til å løse mer spesifikke problemer. For å 
+            finne informasjon om bruk, og noen ganger browserstøtte, 
+            av konkrete metoder/egenskaper brukte jeg 
+            developer.mozilla.org.
+        </p>
+        <h4>Kilder</h4>
+        <ul>
+            <li>HTML5 Canvas Mouse Coordinates Tutorial. URL:
+                <a href="https://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/">
+                    https://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
+                </a>
+            </li>
+            <li>CSS Tutorial. URL: 
+                <a href="https://www.w3schools.com/css/default.asp">
+                    https://www.w3schools.com/css/default.asp
+                </a>
+            </li>
+            <li>CSS Media Queries. URL: <a href="https://www.w3schools.com/css/css3_mediaqueries.asp">
+                    https://www.w3schools.com/css/css3_mediaqueries.asp
+                </a>
+            </li>
+            <li>How to add a shadow under a navbar using CSS?. URL: 
+                <a href="https://stackoverflow.com/questions/60680652/how-to-
+                add-a-shadow-under-a-navbar-using-css">
+                    https://stackoverflow.com/questions/60680652/how-to-
+                    add-a-shadow-under-a-navbar-using-css
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    <button id="doc-button">Vis dokumentasjon</button>
+
+    <script src="click_button.js">
+    </script>
+
+</body>
